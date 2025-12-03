@@ -20,7 +20,9 @@
 #ifndef HAVE_BCRYPT_PBKDF
 
 #include <sys/types.h>
+#ifndef _WIN32
 #include <sys/param.h>
+#endif
 
 #ifdef HAVE_STDLIB_H
 # include <stdlib.h>
