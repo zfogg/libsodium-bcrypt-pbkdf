@@ -20,7 +20,9 @@
 #ifndef HAVE_BCRYPT_PBKDF
 
 #include <sys/types.h>
+#ifndef _WIN32
 #include <sys/param.h>
+#endif
 
 #ifdef HAVE_STDLIB_H
 # include <stdlib.h>
@@ -70,7 +72,7 @@ static void
 bcrypt_hash(u_int8_t *sha2pass, u_int8_t *sha2salt, u_int8_t *out)
 {
 	blf_ctx state;
-	u_int8_t ciphertext[BCRYPT_HASHSIZE] =
+	u_int8_t ciphertext[] =
 	    "OxychromaticBlowfishSwatDynamite";
 	uint32_t cdata[BCRYPT_WORDS];
 	int i;
@@ -91,7 +93,7 @@ bcrypt_hash(u_int8_t *sha2pass, u_int8_t *sha2salt, u_int8_t *out)
 		cdata[i] = Blowfish_stream2word(ciphertext, sizeof(ciphertext),
 		    &j);
 	for (i = 0; i < 64; i++)
-		blf_enc(&state, cdata, sizeof(cdata) / sizeof(uint64_t));
+		blf_enc(&state, cdata, (sizeof(cdata) / sizeof(uint64_t)));
 
 	/* copy out */
 	for (i = 0; i < BCRYPT_WORDS; i++) {
