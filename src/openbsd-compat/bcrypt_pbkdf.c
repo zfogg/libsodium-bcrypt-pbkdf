@@ -29,6 +29,8 @@
 #endif
 #include <string.h>
 
+#include <stdint.h>
+
 #ifdef HAVE_BLF_H
 # include <blf.h>
 #endif
@@ -77,7 +79,8 @@ bcrypt_hash(u_int8_t *sha2pass, u_int8_t *sha2salt, u_int8_t *out)
 	uint32_t cdata[BCRYPT_WORDS];
 	int i;
 	uint16_t j;
-	size_t shalen = SHA512_DIGEST_LENGTH;
+	_Static_assert(SHA512_DIGEST_LENGTH <= UINT16_MAX, "SHA-512 digest must fit Blowfish key length");
+	const u_int16_t shalen = (u_int16_t)SHA512_DIGEST_LENGTH;
 
 	/* key expansion */
 	Blowfish_initstate(&state);
