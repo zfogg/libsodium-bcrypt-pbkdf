@@ -31,6 +31,8 @@
  * probably serves no real purpose that I did, but hey, if you're going to
  * benefit from sharing code between projects then why be subtle about it?
  */
+extern int bcrypt_pbkdf(const char *, size_t, const uint8_t *, size_t, uint8_t *, size_t, unsigned int);
+
 int sodium_bcrypt_pbkdf( const char    *pass,
                          size_t         passlen,
                          const uint8_t *salt,
@@ -39,8 +41,5 @@ int sodium_bcrypt_pbkdf( const char    *pass,
                          size_t         keylen,
                          unsigned int   rounds )
 {
-	// Really? Yes, really. Absolutely unnecessary, absolutely fabulous.
-	extern int bcrypt_pbkdf( const char *, size_t, const uint8_t *,
-	                         size_t, uint8_t *, size_t, unsigned int );
 	return bcrypt_pbkdf(pass, passlen, salt, saltlen, key, keylen, rounds);
 }
